@@ -1,7 +1,9 @@
 import { useState, useMemo } from "react";
-import { Search, X } from "lucide-react";
+import { Search, X, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { crewMembers, allSkillTags } from "@/data/crewData";
+import { NewCrewDialog } from "@/components/NewCrewDialog";
 
 export default function CrewPage() {
   const [search, setSearch] = useState("");
