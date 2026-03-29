@@ -13,6 +13,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -56,6 +59,16 @@ export default {
           "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
+        },
+        status: {
+          confirmed: "hsl(var(--status-confirmed))",
+          "confirmed-bg": "hsl(var(--status-confirmed-bg))",
+          prepping: "hsl(var(--status-prepping))",
+          "prepping-bg": "hsl(var(--status-prepping-bg))",
+          live: "hsl(var(--status-live))",
+          "live-bg": "hsl(var(--status-live-bg))",
+          wrapped: "hsl(var(--status-wrapped))",
+          "wrapped-bg": "hsl(var(--status-wrapped-bg))",
         },
       },
       borderRadius: {
