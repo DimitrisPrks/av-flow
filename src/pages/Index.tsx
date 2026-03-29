@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Toolbar } from "@/components/Toolbar";
+import { Toolbar, getDateRange, isJobInRange } from "@/components/Toolbar";
 import { JobCard } from "@/components/JobCard";
 import type { Job } from "@/components/JobCard";
 import { JobDetailSheet } from "@/components/JobDetailSheet";
@@ -8,20 +7,16 @@ import { VenueHistorySheet } from "@/components/VenueHistorySheet";
 import { sampleJobs } from "@/data/sampleJobs";
 import { pastJobs } from "@/data/pastJobs";
 
+const allJobs: Job[] = [...sampleJobs, ...pastJobs];
+
 const Index = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const isPastRoute = location.pathname === "/past";
-  const [view, setView] = useState<"upcoming" | "past">(isPastRoute ? "past" : "upcoming");
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [rangeMode, setRangeMode] = useState<"week" | "month" | "year">("month");
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [venueFilter, setVenueFilter] = useState<string | null>(null);
 
-  const jobs = view === "upcoming" ? sampleJobs : pastJobs;
-
-  const handleViewChange = (v: "upcoming" | "past") => {
-    setView(v);
-    navigate(v === "past" ? "/past" : "/");
-  };
+  const range = getDateRange(selectedDate, rangeMode);
+  const filteredJobs = allJobs.filter((job) => isJobInRange(job.date, range));
 
   const handleVenueClick = (venue: string) => {
     setSelectedJob(null);
@@ -35,14 +30,23 @@ const Index = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <Toolbar view={view} onViewChange={handleViewChange} />
+      <Toolbar
+        selectedDate={selectedDate}
+        onDateChange={setSelectedDate}
+        rangeMode={rangeMode}
+        onRangeModeChange={setRangeMode}
+      />
       <div className="flex-1 overflow-y-auto p-6">
         <div className="grid gap-3 max-w-4xl">
-          {jobs.map((job) => (
-            <div key={job.id} onClick={() => setSelectedJob(job)}>
-              <JobCard job={job} />
-            </div>
-          ))}
+          {filteredJobs.length > 0 ? (
+            filteredJobs.map((job) => (
+              <div key={job.id} onClick={() => setSelectedJob(job)}>
+                <JobCard job={job} />
+              </div>
+            ))
+          ) : (
+            <p className="text-sm text-muted-foreground py-8 text-center">No jobs in this period.</p>
+          )}
         </div>
       </div>
       <JobDetailSheet
