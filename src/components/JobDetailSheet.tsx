@@ -29,7 +29,7 @@ export function JobDetailSheet({ job, open, onOpenChange }: JobDetailSheetProps)
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full sm:max-w-lg p-0 flex flex-col">
         {/* Header */}
-        <SheetHeader className="p-6 pb-4 border-b border-border space-y-0">
+        <SheetHeader className="p-6 pr-12 pb-4 border-b border-border space-y-0">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <SheetTitle className="text-base font-semibold truncate">{job.title}</SheetTitle>
