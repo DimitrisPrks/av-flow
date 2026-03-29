@@ -7,6 +7,7 @@ import { NewCrewDialog } from "@/components/NewCrewDialog";
 
 export default function CrewPage() {
   const [search, setSearch] = useState("");
+  const [activeSkills, setActiveSkills] = useState<string[]>([]);
   const [newCrewOpen, setNewCrewOpen] = useState(false);
 
   const toggleSkill = (skill: string) => {
