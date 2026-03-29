@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AppSidebar } from "@/components/AppSidebar";
 import Index from "./pages/Index.tsx";
+import CrewPage from "./pages/Crew.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ const App = () => (
           <main className="flex-1 ml-16">
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/crew" element={<CrewPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
