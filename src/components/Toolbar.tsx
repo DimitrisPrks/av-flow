@@ -1,52 +1,120 @@
-import { CalendarIcon, SlidersHorizontal, Plus } from "lucide-react";
+import { useState } from "react";
+import { format, startOfWeek, endOfWeek, startOfMonth, endOfMonth, startOfYear, endOfYear, isWithinInterval } from "date-fns";
+import { CalendarIcon, SlidersHorizontal, Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+
+type RangeMode = "week" | "month" | "year";
 
 interface ToolbarProps {
-  view?: "upcoming" | "past";
-  onViewChange?: (view: "upcoming" | "past") => void;
+  selectedDate: Date;
+  onDateChange: (date: Date) => void;
+  rangeMode: RangeMode;
+  onRangeModeChange: (mode: RangeMode) => void;
 }
 
-export function Toolbar({ view = "upcoming", onViewChange }: ToolbarProps) {
+export function Toolbar({ selectedDate, onDateChange, rangeMode, onRangeModeChange }: ToolbarProps) {
+  const [calendarOpen, setCalendarOpen] = useState(false);
+
+  const navigate = (direction: -1 | 1) => {
+    const d = new Date(selectedDate);
+    if (rangeMode === "week") d.setDate(d.getDate() + direction * 7);
+    else if (rangeMode === "month") d.setMonth(d.getMonth() + direction);
+    else d.setFullYear(d.getFullYear() + direction);
+    onDateChange(d);
+  };
+
+  const rangeLabel = () => {
+    if (rangeMode === "week") {
+      const start = startOfWeek(selectedDate, { weekStartsOn: 1 });
+      const end = endOfWeek(selectedDate, { weekStartsOn: 1 });
+      return `${format(start, "d MMM")} – ${format(end, "d MMM yyyy")}`;
+    }
+    if (rangeMode === "month") return format(selectedDate, "MMMM yyyy");
+    return format(selectedDate, "yyyy");
+  };
+
   return (
     <div className="flex items-center justify-between border-b border-border px-6 h-14">
+      {/* Left: range mode toggle + filters */}
       <div className="flex items-center gap-2">
         <div className="flex items-center rounded-lg border border-border overflow-hidden">
-          <button
-            onClick={() => onViewChange?.("upcoming")}
-            className={`px-3 py-1.5 text-xs font-medium transition-colors ${
-              view === "upcoming"
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            Upcoming
-          </button>
-          <button
-            onClick={() => onViewChange?.("past")}
-            className={`px-3 py-1.5 text-xs font-medium transition-colors ${
-              view === "past"
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            Past
-          </button>
+          {(["week", "month", "year"] as RangeMode[]).map((mode) => (
+            <button
+              key={mode}
+              onClick={() => onRangeModeChange(mode)}
+              className={`px-3 py-1.5 text-xs font-medium capitalize transition-colors ${
+                rangeMode === mode
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {mode}
+            </button>
+          ))}
         </div>
-        <Button variant="outline" size="sm" className="gap-1.5 text-xs">
-          <CalendarIcon className="w-3.5 h-3.5" />
-          This Week
-        </Button>
         <Button variant="outline" size="sm" className="gap-1.5 text-xs">
           <SlidersHorizontal className="w-3.5 h-3.5" />
           Filters
         </Button>
       </div>
-      {view === "upcoming" && (
-        <Button size="sm" className="gap-1.5 text-xs">
-          <Plus className="w-3.5 h-3.5" />
-          New Job
+
+      {/* Center: date navigation */}
+      <div className="flex items-center gap-1">
+        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate(-1)}>
+          <ChevronLeft className="w-4 h-4" />
         </Button>
-      )}
+        <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
+          <PopoverTrigger asChild>
+            <Button variant="ghost" size="sm" className="gap-1.5 text-xs font-medium">
+              <CalendarIcon className="w-3.5 h-3.5" />
+              {rangeLabel()}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="center">
+            <Calendar
+              mode="single"
+              selected={selectedDate}
+              onSelect={(d) => { if (d) { onDateChange(d); setCalendarOpen(false); } }}
+              initialFocus
+              className={cn("p-3 pointer-events-auto")}
+            />
+          </PopoverContent>
+        </Popover>
+        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate(1)}>
+          <ChevronRight className="w-4 h-4" />
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          className="text-xs ml-1"
+          onClick={() => onDateChange(new Date())}
+        >
+          Today
+        </Button>
+      </div>
+
+      {/* Right: New Job */}
+      <Button size="sm" className="gap-1.5 text-xs">
+        <Plus className="w-3.5 h-3.5" />
+        New Job
+      </Button>
     </div>
   );
+}
+
+export function getDateRange(date: Date, mode: RangeMode): { start: Date; end: Date } {
+  if (mode === "week") return { start: startOfWeek(date, { weekStartsOn: 1 }), end: endOfWeek(date, { weekStartsOn: 1 }) };
+  if (mode === "month") return { start: startOfMonth(date), end: endOfMonth(date) };
+  return { start: startOfYear(date), end: endOfYear(date) };
+}
+
+export function isJobInRange(jobDateStr: string, range: { start: Date; end: Date }): boolean {
+  // jobDateStr is like "31 Mar", "4 Apr", "20 Dec" — we assume current year context
+  const currentYear = range.start.getFullYear();
+  const parsed = new Date(`${jobDateStr} ${currentYear}`);
+  if (isNaN(parsed.getTime())) return true; // show if unparseable
+  return isWithinInterval(parsed, { start: range.start, end: range.end });
 }
