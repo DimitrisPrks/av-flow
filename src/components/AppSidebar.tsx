@@ -1,9 +1,10 @@
-import { Calendar, Users, Truck, FileText, UserCheck, Settings, Sun, Moon } from "lucide-react";
+import { Calendar, Users, Truck, FileText, UserCheck, Settings, Sun, Moon, History } from "lucide-react";
 import { useLocation, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const navItems = [
   { title: "Schedule", url: "/", icon: Calendar },
+  { title: "Past Jobs", url: "/past", icon: History },
   { title: "Crew", url: "/crew", icon: Users },
   { title: "Vehicles", url: "/vehicles", icon: Truck },
   { title: "Call Sheets", url: "/call-sheets", icon: FileText },

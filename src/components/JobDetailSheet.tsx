@@ -9,6 +9,7 @@ interface JobDetailSheetProps {
   job: Job | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onVenueClick?: (venue: string) => void;
 }
 
 function SectionLabel({ icon: Icon, label }: { icon: React.ElementType; label: string }) {
@@ -20,7 +21,7 @@ function SectionLabel({ icon: Icon, label }: { icon: React.ElementType; label: s
   );
 }
 
-export function JobDetailSheet({ job, open, onOpenChange }: JobDetailSheetProps) {
+export function JobDetailSheet({ job, open, onOpenChange, onVenueClick }: JobDetailSheetProps) {
   if (!job) return null;
 
   const details = sampleJobDetails[job.id];
@@ -38,7 +39,7 @@ export function JobDetailSheet({ job, open, onOpenChange }: JobDetailSheetProps)
             <StatusBadge status={job.status} />
           </div>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-3 text-xs text-muted-foreground">
-            <span className="inline-flex items-center gap-1"><MapPin className="w-3.5 h-3.5" />{job.venue}</span>
+            <button onClick={() => onVenueClick?.(job.venue)} className="inline-flex items-center gap-1 hover:text-foreground transition-colors underline decoration-dotted underline-offset-2"><MapPin className="w-3.5 h-3.5" />{job.venue}</button>
             <span className="inline-flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{job.date} · {job.time}</span>
             {details && <span className="inline-flex items-center gap-1"><Briefcase className="w-3.5 h-3.5" />{details.type}</span>}
           </div>

@@ -20,6 +20,7 @@ const App = () => (
           <main className="flex-1 ml-16">
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/past" element={<Index />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
