@@ -38,7 +38,7 @@ export function Toolbar({ selectedDate, onDateChange, rangeMode, onRangeModeChan
 
   return (
     <div className="flex items-center justify-between border-b border-border px-6 h-14">
-      {/* Left: range mode toggle + filters */}
+      {/* Left: all date controls */}
       <div className="flex items-center gap-2">
         <div className="flex items-center rounded-lg border border-border overflow-hidden">
           {(["week", "month", "year"] as RangeMode[]).map((mode) => (
@@ -55,14 +55,6 @@ export function Toolbar({ selectedDate, onDateChange, rangeMode, onRangeModeChan
             </button>
           ))}
         </div>
-        <Button variant="outline" size="sm" className="gap-1.5 text-xs">
-          <SlidersHorizontal className="w-3.5 h-3.5" />
-          Filters
-        </Button>
-      </div>
-
-      {/* Center: date navigation */}
-      <div className="flex items-center gap-1">
         <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate(-1)}>
           <ChevronLeft className="w-4 h-4" />
         </Button>
@@ -73,7 +65,7 @@ export function Toolbar({ selectedDate, onDateChange, rangeMode, onRangeModeChan
               {rangeLabel()}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="center">
+          <PopoverContent className="w-auto p-0" align="start">
             <Calendar
               mode="single"
               selected={selectedDate}
@@ -89,18 +81,24 @@ export function Toolbar({ selectedDate, onDateChange, rangeMode, onRangeModeChan
         <Button
           variant="outline"
           size="sm"
-          className="text-xs ml-1"
+          className="text-xs"
           onClick={() => onDateChange(new Date())}
         >
           Today
         </Button>
       </div>
 
-      {/* Right: New Job */}
-      <Button size="sm" className="gap-1.5 text-xs">
-        <Plus className="w-3.5 h-3.5" />
-        New Job
-      </Button>
+      {/* Right: filters + New Job */}
+      <div className="flex items-center gap-2">
+        <Button variant="outline" size="sm" className="gap-1.5 text-xs">
+          <SlidersHorizontal className="w-3.5 h-3.5" />
+          Filters
+        </Button>
+        <Button size="sm" className="gap-1.5 text-xs">
+          <Plus className="w-3.5 h-3.5" />
+          New Job
+        </Button>
+      </div>
     </div>
   );
 }
