@@ -2,6 +2,7 @@ import { useState } from "react";
 import { format, startOfWeek, endOfWeek, startOfMonth, endOfMonth, startOfYear, endOfYear, isWithinInterval } from "date-fns";
 import { CalendarIcon, SlidersHorizontal, Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { NewJobDialog } from "@/components/NewJobDialog";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
@@ -17,6 +18,7 @@ interface ToolbarProps {
 
 export function Toolbar({ selectedDate, onDateChange, rangeMode, onRangeModeChange }: ToolbarProps) {
   const [calendarOpen, setCalendarOpen] = useState(false);
+  const [newJobOpen, setNewJobOpen] = useState(false);
 
   const navigate = (direction: -1 | 1) => {
     const d = new Date(selectedDate);
@@ -94,11 +96,12 @@ export function Toolbar({ selectedDate, onDateChange, rangeMode, onRangeModeChan
           <SlidersHorizontal className="w-3.5 h-3.5" />
           Filters
         </Button>
-        <Button size="sm" className="gap-1.5 text-xs">
+        <Button size="sm" className="gap-1.5 text-xs" onClick={() => setNewJobOpen(true)}>
           <Plus className="w-3.5 h-3.5" />
           New Job
         </Button>
       </div>
+      <NewJobDialog open={newJobOpen} onOpenChange={setNewJobOpen} />
     </div>
   );
 }
