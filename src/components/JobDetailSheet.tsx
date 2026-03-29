@@ -1,6 +1,5 @@
-import { MapPin, Clock, Briefcase, Clock3 } from "lucide-react";
+import { MapPin, Clock, Briefcase, Clock3, Users, Truck, StickyNote } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { StatusBadge } from "./StatusBadge";
 import { sampleJobDetails } from "@/data/sampleJobDetails";
@@ -10,6 +9,15 @@ interface JobDetailSheetProps {
   job: Job | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+}
+
+function SectionLabel({ icon: Icon, label }: { icon: React.ElementType; label: string }) {
+  return (
+    <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+      <Icon className="w-3.5 h-3.5" />
+      {label}
+    </div>
+  );
 }
 
 export function JobDetailSheet({ job, open, onOpenChange }: JobDetailSheetProps) {
@@ -29,89 +37,73 @@ export function JobDetailSheet({ job, open, onOpenChange }: JobDetailSheetProps)
             </div>
             <StatusBadge status={job.status} />
           </div>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-3 text-xs text-muted-foreground">
+            <span className="inline-flex items-center gap-1"><MapPin className="w-3.5 h-3.5" />{job.venue}</span>
+            <span className="inline-flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{job.date} · {job.time}</span>
+            {details && <span className="inline-flex items-center gap-1"><Briefcase className="w-3.5 h-3.5" />{details.type}</span>}
+          </div>
         </SheetHeader>
 
-        {/* Metadata row */}
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 px-6 py-3 border-b border-border text-xs text-muted-foreground">
-          <span className="inline-flex items-center gap-1">
-            <MapPin className="w-3.5 h-3.5" />
-            {job.venue}
-          </span>
-          <span className="inline-flex items-center gap-1">
-            <Clock className="w-3.5 h-3.5" />
-            {job.date} · {job.time}
-          </span>
-          {details && (
-            <span className="inline-flex items-center gap-1">
-              <Briefcase className="w-3.5 h-3.5" />
-              {details.type}
-            </span>
-          )}
-        </div>
-
-        {/* Tabs */}
-        <Tabs defaultValue="crew" className="flex-1 flex flex-col overflow-hidden">
-          <TabsList className="mx-6 mt-4 mb-0 bg-muted w-fit">
-            <TabsTrigger value="crew">Crew</TabsTrigger>
-            <TabsTrigger value="vehicles">Vehicles</TabsTrigger>
-            <TabsTrigger value="notes">Notes</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="crew" className="flex-1 overflow-y-auto px-6 pb-6">
+        {/* Single scrollable body */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          {/* Crew */}
+          <section>
+            <SectionLabel icon={Users} label={`Crew (${details?.crew.length ?? 0})`} />
             {details?.crew.length ? (
-              <div className="divide-y divide-border">
+              <div className="divide-y divide-border rounded-lg border border-border overflow-hidden">
                 {details.crew.map((member, i) => (
-                  <div key={i} className="flex items-center justify-between py-3">
+                  <div key={i} className="flex items-center justify-between px-3 py-2.5 bg-card">
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-foreground">{member.name}</p>
+                      <p className="text-sm font-medium text-card-foreground">{member.name}</p>
                       <p className="text-xs text-muted-foreground">{member.role}</p>
                     </div>
                     <span className="inline-flex items-center gap-1 text-xs text-muted-foreground shrink-0">
-                      <Clock3 className="w-3 h-3" />
-                      {member.callTime}
+                      <Clock3 className="w-3 h-3" />{member.callTime}
                     </span>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground py-4">No crew assigned.</p>
+              <p className="text-sm text-muted-foreground">No crew assigned.</p>
             )}
-          </TabsContent>
+          </section>
 
-          <TabsContent value="vehicles" className="flex-1 overflow-y-auto px-6 pb-6">
+          {/* Vehicles */}
+          <section>
+            <SectionLabel icon={Truck} label={`Vehicles (${details?.vehicles.length ?? 0})`} />
             {details?.vehicles.length ? (
-              <div className="divide-y divide-border">
+              <div className="divide-y divide-border rounded-lg border border-border overflow-hidden">
                 {details.vehicles.map((vehicle, i) => (
-                  <div key={i} className="flex items-center justify-between py-3">
+                  <div key={i} className="flex items-center justify-between px-3 py-2.5 bg-card">
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-foreground">{vehicle.name}</p>
+                      <p className="text-sm font-medium text-card-foreground">{vehicle.name}</p>
                       <p className="text-xs text-muted-foreground">{vehicle.driver}</p>
                     </div>
-                    <span
-                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        vehicle.loaded
-                          ? "bg-status-confirmed-bg text-status-confirmed"
-                          : "bg-status-wrapped-bg text-status-wrapped"
-                      }`}
-                    >
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      vehicle.loaded
+                        ? "bg-status-confirmed-bg text-status-confirmed"
+                        : "bg-status-wrapped-bg text-status-wrapped"
+                    }`}>
                       {vehicle.loaded ? "Loaded" : "Not Loaded"}
                     </span>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground py-4">No vehicles assigned.</p>
+              <p className="text-sm text-muted-foreground">No vehicles assigned.</p>
             )}
-          </TabsContent>
+          </section>
 
-          <TabsContent value="notes" className="flex-1 overflow-y-auto px-6 pb-6">
+          {/* Notes */}
+          <section>
+            <SectionLabel icon={StickyNote} label="Notes" />
             <Textarea
-              className="min-h-[200px] resize-none text-sm"
+              className="min-h-[120px] resize-none text-sm"
               defaultValue={details?.notes ?? ""}
               placeholder="Add notes…"
             />
-          </TabsContent>
-        </Tabs>
+          </section>
+        </div>
       </SheetContent>
     </Sheet>
   );
