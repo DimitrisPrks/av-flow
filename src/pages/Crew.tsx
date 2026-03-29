@@ -1,11 +1,14 @@
 import { useState, useMemo } from "react";
-import { Search, X } from "lucide-react";
+import { Search, X, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { crewMembers, allSkillTags } from "@/data/crewData";
+import { NewCrewDialog } from "@/components/NewCrewDialog";
 
 export default function CrewPage() {
   const [search, setSearch] = useState("");
   const [activeSkills, setActiveSkills] = useState<string[]>([]);
+  const [newCrewOpen, setNewCrewOpen] = useState(false);
 
   const toggleSkill = (skill: string) => {
     setActiveSkills((prev) =>
@@ -33,16 +36,23 @@ export default function CrewPage() {
           <h1 className="text-sm font-semibold text-foreground">Crew</h1>
           <span className="text-xs text-muted-foreground">{filtered.length} technicians</span>
         </div>
-        <div className="relative w-64">
-          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
-          <Input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search crew…"
-            className="pl-8 h-9 text-xs"
-          />
+        <div className="flex items-center gap-3">
+          <div className="relative w-64">
+            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+            <Input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search crew…"
+              className="pl-8 h-9 text-xs"
+            />
+          </div>
+          <Button size="sm" className="h-9 text-xs gap-1.5" onClick={() => setNewCrewOpen(true)}>
+            <Plus className="w-3.5 h-3.5" />
+            New Crew
+          </Button>
         </div>
       </div>
+      <NewCrewDialog open={newCrewOpen} onOpenChange={setNewCrewOpen} />
 
       {/* Skill tag filter bar */}
       <div className="flex items-center gap-1.5 px-6 py-3 border-b border-border overflow-x-auto">
