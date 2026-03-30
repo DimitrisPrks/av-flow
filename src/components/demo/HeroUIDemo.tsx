@@ -14,11 +14,18 @@ import { SkeletonDashboard, NumberTicker, TypewriterText } from "@/components/an
 
 const icons = [Briefcase, Users, Truck];
 
-const chipColorMap: Record<string, "accent" | "success" | "warning" | "default"> = {
-  Confirmed: "accent",
-  Live: "success",
-  Prepping: "warning",
-  Wrapped: "default",
+const chipStyleMap: Record<string, string> = {
+  Confirmed: "bg-status-confirmed-bg text-status-confirmed",
+  Live: "bg-status-live-bg text-status-live",
+  Prepping: "bg-status-prepping-bg text-status-prepping",
+  Wrapped: "bg-status-wrapped-bg text-status-wrapped",
+};
+
+const dotStyleMap: Record<string, string> = {
+  Confirmed: "bg-status-confirmed",
+  Live: "bg-status-live animate-pulse",
+  Prepping: "bg-status-prepping",
+  Wrapped: "bg-status-wrapped",
 };
 
 export function HeroUIDemo() {
