@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Briefcase, Users, Truck } from "lucide-react";
+import { Briefcase, Users, Truck, CalendarIcon, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { format, startOfWeek, endOfWeek } from "date-fns";
 import {
   Card,
   Button,
@@ -9,6 +10,10 @@ import {
   Skeleton,
   Spinner,
 } from "@heroui/react";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 import { stats, jobs } from "./demoData";
 import { SkeletonDashboard, NumberTicker, TypewriterText } from "@/components/animated";
 
