@@ -14,8 +14,8 @@ import { SkeletonDashboard } from "@/components/animated";
 
 const icons = [Briefcase, Users, Truck];
 
-const chipColorMap: Record<string, "primary" | "success" | "warning" | "default"> = {
-  Confirmed: "primary",
+const chipColorMap: Record<string, "accent" | "success" | "warning" | "default"> = {
+  Confirmed: "accent",
   Live: "success",
   Prepping: "warning",
   Wrapped: "default",
@@ -102,7 +102,7 @@ export function HeroUIDemo() {
                   <td className="px-4 py-3">{j.client}</td>
                   <td className="px-4 py-3">{j.date}</td>
                   <td className="px-4 py-3">
-                    <Chip color={chipColorMap[j.status]} size="sm" variant="flat">
+                    <Chip color={chipColorMap[j.status]} size="sm" variant="soft">
                       {j.status}
                     </Chip>
                   </td>
@@ -122,11 +122,11 @@ export function HeroUIDemo() {
         <Card className="p-5">
           <h3 className="text-base font-semibold mb-4">Quick Add Job</h3>
           <div className="grid grid-cols-3 gap-3">
-            <Input label="Job Title" placeholder="e.g. Gala Dinner" variant="bordered" />
-            <Input label="Client" placeholder="e.g. Acme Corp" variant="bordered" />
-            <Input label="Status" placeholder="Confirmed" variant="bordered" />
+            <Input label="Job Title" placeholder="e.g. Gala Dinner" variant="secondary" />
+            <Input label="Client" placeholder="e.g. Acme Corp" variant="secondary" />
+            <Input label="Status" placeholder="Confirmed" variant="secondary" />
           </div>
-          <Button className="mt-4" variant="solid">
+          <Button className="mt-4" variant="primary">
             Add Job
           </Button>
         </Card>
@@ -146,7 +146,7 @@ export function HeroUIDemo() {
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 20 }}
           >
-            <Chip color={color} variant="flat">
+            <Chip color={color} variant="soft">
               {label}
             </Chip>
           </motion.div>
