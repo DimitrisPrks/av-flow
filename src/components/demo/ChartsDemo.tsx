@@ -67,6 +67,9 @@ export function ChartsDemo() {
                       stroke={spark.color}
                       strokeWidth={2}
                       dot={false}
+                      isAnimationActive={true}
+                      animationDuration={1200}
+                      animationEasing="ease-out"
                     />
                   </LineChart>
                 </ResponsiveContainer>
@@ -100,8 +103,8 @@ export function ChartsDemo() {
                     fontSize: 12,
                   }}
                 />
-                <Bar dataKey="jobs" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="revenue" fill="hsl(var(--status-confirmed))" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="jobs" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} isAnimationActive={true} animationDuration={1000} animationEasing="ease-out" />
+                <Bar dataKey="revenue" fill="hsl(var(--status-confirmed))" radius={[4, 4, 0, 0]} isAnimationActive={true} animationDuration={1000} animationBegin={300} animationEasing="ease-out" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -128,6 +131,10 @@ export function ChartsDemo() {
                   paddingAngle={3}
                   dataKey="value"
                   strokeWidth={0}
+                  isAnimationActive={true}
+                  animationDuration={1200}
+                  animationBegin={200}
+                  animationEasing="ease-out"
                 >
                   {donutData.map((entry) => (
                     <Cell key={entry.name} fill={entry.color} />
