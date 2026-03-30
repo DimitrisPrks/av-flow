@@ -27,7 +27,7 @@ export function TypewriterText({
   const [displayed, setDisplayed] = useState(trigger === "mount" ? "" : text);
   const [isTyping, setIsTyping] = useState(trigger === "mount");
   const [showCursor, setShowCursor] = useState(trigger === "mount");
-  const intervalRef = useRef<ReturnType<typeof setInterval>>();
+  const intervalRef = useRef<ReturnType<typeof setInterval>>(undefined);
 
   const startTyping = () => {
     setDisplayed("");
