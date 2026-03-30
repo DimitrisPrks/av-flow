@@ -10,7 +10,7 @@ import {
   Spinner,
 } from "@heroui/react";
 import { stats, jobs } from "./demoData";
-import { SkeletonDashboard } from "@/components/animated";
+import { SkeletonDashboard, NumberTicker, TypewriterText } from "@/components/animated";
 
 const icons = [Briefcase, Users, Truck];
 
@@ -66,7 +66,9 @@ export function HeroUIDemo() {
                   <span className="text-sm font-medium text-muted-foreground">{s.label}</span>
                   <Icon className="h-4 w-4 text-muted-foreground" />
                 </div>
-                <span className="text-2xl font-bold">{s.value}</span>
+                <span className="text-2xl font-bold">
+                  <NumberTicker value={s.value} delay={200 + i * 150} />
+                </span>
               </Card>
             </motion.div>
           );
@@ -120,7 +122,10 @@ export function HeroUIDemo() {
         transition={{ duration: 0.5, delay: 0.5 }}
       >
         <Card className="p-5">
-          <h3 className="text-base font-semibold mb-4">Quick Add Job</h3>
+          <h3 className="text-base font-semibold mb-1">Quick Add Job</h3>
+          <p className="text-xs text-muted-foreground mb-4">
+            <TypewriterText text="Hover the inputs below to see the typewriter effect ✨" trigger="mount" speed={30} />
+          </p>
           <div className="grid grid-cols-3 gap-3">
             <Input placeholder="Job Title" variant="secondary" />
             <Input placeholder="Client" variant="secondary" />
