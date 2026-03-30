@@ -108,6 +108,92 @@ export function HeroUIDemo() {
         })}
       </div>
 
+      {/* Date Picker Toolbar */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.25 }}
+      >
+        <Card className="p-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              {/* Range mode toggle */}
+              <div className="flex items-center rounded-lg border border-border overflow-hidden">
+                {(["week", "month", "year"] as const).map((mode) => (
+                  <button
+                    key={mode}
+                    onClick={() => setRangeMode(mode)}
+                    className={`px-3 py-1.5 text-xs font-medium capitalize transition-colors ${
+                      rangeMode === mode
+                        ? "bg-primary text-primary-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {mode}
+                  </button>
+                ))}
+              </div>
+
+              {/* Navigation */}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={() => navigate(-1)}
+                    className="w-8 h-8 rounded-md flex items-center justify-center text-muted-foreground hover:bg-muted transition-colors"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>Previous {rangeMode}</TooltipContent>
+              </Tooltip>
+
+              {/* Date display with calendar popover */}
+              <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
+                <PopoverTrigger asChild>
+                  <button className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium hover:bg-muted transition-colors">
+                    <CalendarIcon className="w-3.5 h-3.5" />
+                    {rangeLabel()}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={(d) => { if (d) { setSelectedDate(d); setCalendarOpen(false); } }}
+                    initialFocus
+                    className={cn("p-3 pointer-events-auto")}
+                  />
+                </PopoverContent>
+              </Popover>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={() => navigate(1)}
+                    className="w-8 h-8 rounded-md flex items-center justify-center text-muted-foreground hover:bg-muted transition-colors"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>Next {rangeMode}</TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={() => setSelectedDate(new Date())}
+                    className="px-3 py-1.5 rounded-md border border-border text-xs font-medium hover:bg-muted transition-colors"
+                  >
+                    Today
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>Jump to today</TooltipContent>
+              </Tooltip>
+            </div>
+          </div>
+        </Card>
+      </motion.div>
+
       {/* Table */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
