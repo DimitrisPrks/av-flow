@@ -4,6 +4,7 @@ import { TimelineDemo } from "@/components/demo/TimelineDemo";
 import { NotificationsDemo } from "@/components/demo/NotificationsDemo";
 import { ModalWorkflowDemo } from "@/components/demo/ModalWorkflowDemo";
 import { ChartsDemo } from "@/components/demo/ChartsDemo";
+import { ComponentLibraryDemo } from "@/components/demo/ComponentLibraryDemo";
 
 export default function DemoComparison() {
   return (
@@ -14,6 +15,7 @@ export default function DemoComparison() {
       </p>
 
       <div className="space-y-10">
+        <ComponentLibraryDemo />
         <HeroUIDemo />
         <CrewCardsDemo />
         <TimelineDemo />
