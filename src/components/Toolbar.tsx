@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { NewJobDialog } from "@/components/NewJobDialog";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 type RangeMode = "week" | "month" | "year";
@@ -57,9 +58,14 @@ export function Toolbar({ selectedDate, onDateChange, rangeMode, onRangeModeChan
             </button>
           ))}
         </div>
-        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate(-1)}>
-          <ChevronLeft className="w-4 h-4" />
-        </Button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate(-1)}>
+              <ChevronLeft className="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Previous {rangeMode}</TooltipContent>
+        </Tooltip>
         <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
           <PopoverTrigger asChild>
             <Button variant="ghost" size="sm" className="gap-1.5 text-xs font-medium">
@@ -77,29 +83,49 @@ export function Toolbar({ selectedDate, onDateChange, rangeMode, onRangeModeChan
             />
           </PopoverContent>
         </Popover>
-        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate(1)}>
-          <ChevronRight className="w-4 h-4" />
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          className="text-xs"
-          onClick={() => onDateChange(new Date())}
-        >
-          Today
-        </Button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate(1)}>
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Next {rangeMode}</TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-xs"
+              onClick={() => onDateChange(new Date())}
+            >
+              Today
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Jump to today</TooltipContent>
+        </Tooltip>
       </div>
 
       {/* Right: filters + New Job */}
       <div className="flex items-center gap-2">
-        <Button variant="outline" size="sm" className="gap-1.5 text-xs">
-          <SlidersHorizontal className="w-3.5 h-3.5" />
-          Filters
-        </Button>
-        <Button size="sm" className="gap-1.5 text-xs" onClick={() => setNewJobOpen(true)}>
-          <Plus className="w-3.5 h-3.5" />
-          New Job
-        </Button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="outline" size="sm" className="gap-1.5 text-xs">
+              <SlidersHorizontal className="w-3.5 h-3.5" />
+              Filters
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Filter jobs</TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button size="sm" className="gap-1.5 text-xs" onClick={() => setNewJobOpen(true)}>
+              <Plus className="w-3.5 h-3.5" />
+              New Job
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Create a new job</TooltipContent>
+        </Tooltip>
       </div>
       <NewJobDialog open={newJobOpen} onOpenChange={setNewJobOpen} />
     </div>
