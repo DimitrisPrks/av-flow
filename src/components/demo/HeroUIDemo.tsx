@@ -14,11 +14,18 @@ import { SkeletonDashboard, NumberTicker, TypewriterText } from "@/components/an
 
 const icons = [Briefcase, Users, Truck];
 
-const chipColorMap: Record<string, "accent" | "success" | "warning" | "default"> = {
-  Confirmed: "accent",
-  Live: "success",
-  Prepping: "warning",
-  Wrapped: "default",
+const chipStyleMap: Record<string, string> = {
+  Confirmed: "bg-status-confirmed-bg text-status-confirmed",
+  Live: "bg-status-live-bg text-status-live",
+  Prepping: "bg-status-prepping-bg text-status-prepping",
+  Wrapped: "bg-status-wrapped-bg text-status-wrapped",
+};
+
+const dotStyleMap: Record<string, string> = {
+  Confirmed: "bg-status-confirmed",
+  Live: "bg-status-live animate-pulse",
+  Prepping: "bg-status-prepping",
+  Wrapped: "bg-status-wrapped",
 };
 
 export function HeroUIDemo() {
@@ -104,9 +111,10 @@ export function HeroUIDemo() {
                   <td className="px-4 py-3">{j.client}</td>
                   <td className="px-4 py-3">{j.date}</td>
                   <td className="px-4 py-3">
-                    <Chip color={chipColorMap[j.status]} size="sm" variant="soft">
+                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${chipStyleMap[j.status] ?? ''}`}>
+                      <span className={`w-1.5 h-1.5 rounded-full ${dotStyleMap[j.status] ?? ''}`} />
                       {j.status}
-                    </Chip>
+                    </span>
                   </td>
                 </motion.tr>
               ))}
@@ -147,16 +155,17 @@ export function HeroUIDemo() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.6 }}
       >
-        {Object.entries(chipColorMap).map(([label, color], i) => (
+        {Object.entries(chipStyleMap).map(([label, style], i) => (
           <motion.div
             key={label}
             whileHover={{ scale: 1.08, y: -2 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 20 }}
           >
-            <Chip color={color} variant="soft">
+            <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${style}`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${dotStyleMap[label] ?? ''}`} />
               {label}
-            </Chip>
+            </span>
           </motion.div>
         ))}
       </motion.div>
