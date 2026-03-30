@@ -122,9 +122,9 @@ export function HeroUIDemo() {
         <Card className="p-5">
           <h3 className="text-base font-semibold mb-4">Quick Add Job</h3>
           <div className="grid grid-cols-3 gap-3">
-            <Input label="Job Title" placeholder="e.g. Gala Dinner" variant="secondary" />
-            <Input label="Client" placeholder="e.g. Acme Corp" variant="secondary" />
-            <Input label="Status" placeholder="Confirmed" variant="secondary" />
+            <Input placeholder="Job Title" variant="secondary" />
+            <Input placeholder="Client" variant="secondary" />
+            <Input placeholder="Status" variant="secondary" />
           </div>
           <Button className="mt-4" variant="primary">
             Add Job
