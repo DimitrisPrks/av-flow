@@ -1,5 +1,5 @@
 import { MapPin, Clock, Users, Truck } from "lucide-react";
-import { StatusBadge } from "./StatusBadge";
+import { StatusBadge, type JobStatus } from "./StatusBadge";
 
 export interface Job {
   id: string;
@@ -8,14 +8,23 @@ export interface Job {
   venue: string;
   date: string;
   time: string;
-  status: "Confirmed" | "Prepping" | "Live" | "Wrapped";
+  status: JobStatus;
   crewCount: number;
   vehicleCount: number;
 }
 
-export function JobCard({ job }: { job: Job }) {
+interface JobCardProps {
+  job: Job;
+  onClick?: (job: Job) => void;
+}
+
+export function JobCard({ job, onClick }: JobCardProps) {
   return (
-    <div className="bg-card border border-border rounded-lg p-4 hover:border-foreground/20 transition-colors cursor-pointer">
+    <button
+      type="button"
+      onClick={() => onClick?.(job)}
+      className="w-full text-left bg-card border border-border rounded-lg p-4 hover:border-foreground/20 transition-colors cursor-pointer"
+    >
       <div className="flex items-start justify-between mb-3">
         <div className="min-w-0">
           <h3 className="font-semibold text-sm text-card-foreground truncate">{job.title}</h3>
@@ -42,6 +51,6 @@ export function JobCard({ job }: { job: Job }) {
           {job.vehicleCount} vehicle{job.vehicleCount !== 1 ? "s" : ""}
         </span>
       </div>
-    </div>
+    </button>
   );
 }
