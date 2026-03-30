@@ -138,13 +138,32 @@ export function HeroUIDemo() {
             <TypewriterText text="Hover me to see the typewriter replay effect!" trigger="hover" speed={35} />
           </p>
           <div className="grid grid-cols-3 gap-3">
-            <Input placeholder="Job Title" variant="secondary" />
-            <Input placeholder="Client" variant="secondary" />
-            <Input placeholder="Status" variant="secondary" />
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium">Job Title</label>
+              <input
+                className="flex h-9 w-full rounded-md border border-input bg-background px-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                placeholder="e.g. Gala Dinner"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium">Client</label>
+              <input
+                className="flex h-9 w-full rounded-md border border-input bg-background px-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                placeholder="e.g. Acme Corp"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium">Status</label>
+              <select className="flex h-9 w-full rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                <option>Confirmed</option>
+                <option>Prepping</option>
+                <option>Live</option>
+              </select>
+            </div>
           </div>
-          <Button className="mt-4" variant="primary">
+          <button className="mt-4 inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
             Add Job
-          </Button>
+          </button>
         </Card>
       </motion.div>
 
