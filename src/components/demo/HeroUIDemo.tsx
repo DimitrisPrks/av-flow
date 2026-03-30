@@ -114,7 +114,7 @@ export function HeroUIDemo() {
                     <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${chipStyleMap[j.status] ?? ''}`}>
                       <span className={`w-1.5 h-1.5 rounded-full ${dotStyleMap[j.status] ?? ''}`} />
                       {j.status}
-                    </Chip>
+                    </span>
                   </td>
                 </motion.tr>
               ))}
@@ -165,7 +165,7 @@ export function HeroUIDemo() {
             <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${style}`}>
               <span className={`w-1.5 h-1.5 rounded-full ${dotStyleMap[label] ?? ''}`} />
               {label}
-            </Chip>
+            </span>
           </motion.div>
         ))}
       </motion.div>
