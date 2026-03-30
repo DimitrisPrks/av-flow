@@ -124,7 +124,10 @@ export function HeroUIDemo() {
         <Card className="p-5">
           <h3 className="text-base font-semibold mb-1">Quick Add Job</h3>
           <p className="text-xs text-muted-foreground mb-4">
-            <TypewriterText text="Hover the inputs below to see the typewriter effect ✨" trigger="mount" speed={30} />
+            <TypewriterText text="This text typed on mount ✨" trigger="mount" speed={30} />
+          </p>
+          <p className="text-sm text-foreground mb-4 min-h-[1.5em]">
+            <TypewriterText text="Hover me to see the typewriter replay effect!" trigger="hover" speed={35} />
           </p>
           <div className="grid grid-cols-3 gap-3">
             <Input placeholder="Job Title" variant="secondary" />
