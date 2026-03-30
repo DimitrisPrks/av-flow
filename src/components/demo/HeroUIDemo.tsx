@@ -34,7 +34,28 @@ const dotStyleMap: Record<string, string> = {
 };
 
 export function HeroUIDemo() {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [rangeMode, setRangeMode] = useState<"week" | "month" | "year">("week");
+  const [calendarOpen, setCalendarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const navigate = (dir: -1 | 1) => {
+    const d = new Date(selectedDate);
+    if (rangeMode === "week") d.setDate(d.getDate() + dir * 7);
+    else if (rangeMode === "month") d.setMonth(d.getMonth() + dir);
+    else d.setFullYear(d.getFullYear() + dir);
+    setSelectedDate(d);
+  };
+
+  const rangeLabel = () => {
+    if (rangeMode === "week") {
+      const s = startOfWeek(selectedDate, { weekStartsOn: 1 });
+      const e = endOfWeek(selectedDate, { weekStartsOn: 1 });
+      return `${format(s, "d MMM")} – ${format(e, "d MMM yyyy")}`;
+    }
+    if (rangeMode === "month") return format(selectedDate, "MMMM yyyy");
+    return format(selectedDate, "yyyy");
+  };
 
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 1800);
