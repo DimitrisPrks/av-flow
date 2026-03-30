@@ -7,9 +7,17 @@ const statusStyles: Record<Status, string> = {
   Wrapped: "bg-status-wrapped-bg text-status-wrapped",
 };
 
+const dotStyles: Record<Status, string> = {
+  Confirmed: "bg-status-confirmed",
+  Prepping: "bg-status-prepping",
+  Live: "bg-status-live animate-pulse",
+  Wrapped: "bg-status-wrapped",
+};
+
 export function StatusBadge({ status }: { status: Status }) {
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusStyles[status]}`}>
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${statusStyles[status]}`}>
+      <span className={`w-1.5 h-1.5 rounded-full ${dotStyles[status]}`} />
       {status}
     </span>
   );
