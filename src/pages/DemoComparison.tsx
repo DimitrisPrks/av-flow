@@ -3,6 +3,11 @@ import { ShadcnDemo } from "@/components/demo/ShadcnDemo";
 import { HeroUIDemo } from "@/components/demo/HeroUIDemo";
 import { MagicUIDemo } from "@/components/demo/MagicUIDemo";
 import { TailwindDemo } from "@/components/demo/TailwindDemo";
+import { CrewCardsDemo } from "@/components/demo/CrewCardsDemo";
+import { TimelineDemo } from "@/components/demo/TimelineDemo";
+import { NotificationsDemo } from "@/components/demo/NotificationsDemo";
+import { ModalWorkflowDemo } from "@/components/demo/ModalWorkflowDemo";
+import { ChartsDemo } from "@/components/demo/ChartsDemo";
 
 export default function DemoComparison() {
   return (
@@ -18,12 +23,22 @@ export default function DemoComparison() {
           <TabsTrigger value="heroui">HeroUI</TabsTrigger>
           <TabsTrigger value="magicui">Magic UI</TabsTrigger>
           <TabsTrigger value="tailwind">Tailwind Only</TabsTrigger>
+          <TabsTrigger value="components">Components</TabsTrigger>
         </TabsList>
 
         <TabsContent value="shadcn"><ShadcnDemo /></TabsContent>
         <TabsContent value="heroui"><HeroUIDemo /></TabsContent>
         <TabsContent value="magicui"><MagicUIDemo /></TabsContent>
         <TabsContent value="tailwind"><TailwindDemo /></TabsContent>
+        <TabsContent value="components">
+          <div className="space-y-10">
+            <CrewCardsDemo />
+            <TimelineDemo />
+            <ChartsDemo />
+            <NotificationsDemo />
+            <ModalWorkflowDemo />
+          </div>
+        </TabsContent>
       </Tabs>
     </div>
   );
