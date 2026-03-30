@@ -38,6 +38,9 @@ export function HeroUIDemo() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [rangeMode, setRangeMode] = useState<"week" | "month" | "year">("week");
   const [calendarOpen, setCalendarOpen] = useState(false);
+  const [timeHours, setTimeHours] = useState(9);
+  const [timeMinutes, setTimeMinutes] = useState(0);
+  const [timeOpen, setTimeOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const navigate = (dir: -1 | 1) => {
@@ -190,6 +193,23 @@ export function HeroUIDemo() {
                 </TooltipTrigger>
                 <TooltipContent>Jump to today</TooltipContent>
               </Tooltip>
+
+              {/* Time picker */}
+              <Popover open={timeOpen} onOpenChange={setTimeOpen}>
+                <PopoverTrigger asChild>
+                  <button className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium hover:bg-muted transition-colors border border-border">
+                    <Clock className="w-3.5 h-3.5" />
+                    {String(timeHours % 12 || 12).padStart(2, "0")}:{String(timeMinutes).padStart(2, "0")} {timeHours >= 12 ? "PM" : "AM"}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <TimePicker
+                    hours={timeHours}
+                    minutes={timeMinutes}
+                    onTimeChange={(h, m) => { setTimeHours(h); setTimeMinutes(m); }}
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
         </Card>
