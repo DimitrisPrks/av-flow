@@ -7,6 +7,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import Index from "./pages/Index.tsx";
 import CrewPage from "./pages/Crew.tsx";
 import VehiclesPage from "./pages/Vehicles.tsx";
+import DemoComparison from "./pages/DemoComparison.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/crew" element={<CrewPage />} />
               <Route path="/vehicles" element={<VehiclesPage />} />
+              <Route path="/demo" element={<DemoComparison />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

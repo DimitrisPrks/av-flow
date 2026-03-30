@@ -1,4 +1,4 @@
-import { Calendar, Users, Truck, FileText, UserCheck, Settings, Sun, Moon } from "lucide-react";
+import { Calendar, Users, Truck, FileText, UserCheck, Settings, Sun, Moon, Palette } from "lucide-react";
 import { useLocation, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -8,6 +8,7 @@ const navItems = [
   { title: "Vehicles", url: "/vehicles", icon: Truck },
   { title: "Call Sheets", url: "/call-sheets", icon: FileText },
   { title: "Contractors", url: "/contractors", icon: UserCheck },
+  { title: "UI Demo", url: "/demo", icon: Palette },
 ];
 
 export function AppSidebar() {
